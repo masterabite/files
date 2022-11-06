@@ -5,7 +5,7 @@
 
 int main() {
     setlocale(LC_ALL, "Russian");
-    
+
     FILE* fin = fopen("text.txt", "r");     //открываем файл для считывания 
     FILE* fout = fopen("out.txt", "w");     //открываем/создаем новый файл для записи
 
@@ -13,29 +13,29 @@ int main() {
         printf("Не удалось открыть файл.\n");
     }
     else {
-        char temp = '-';      //символ буфер, для записи текста
-        int page = 1;   //номер страницы
+        char temp = '\n';      //символ буфер, для записи текста
+        int page = 0;   //номер страницы
 
         while (!feof(fin)) {
             //в начале каждой строки записываем ее номер
-            fprintf(fout, "%d ", page);
+            fprintf(fout, "%d ", ++page);
 
             //далее копируем символы из первого текста до конца строки или конца файла
-            while (temp != '\n' || temp != '\0' || temp != '\0') { 
-                fscanf(fin, "%c", &temp);
-                fprintf(fout, "%c", &temp);
+            while (temp != EOF) {
+                temp = fgetc(fin);
+                fprintf(fout, "%c", temp);
+                if (temp == '\n') {
+                    break;
+                }
             }
-            if (temp == '\n') {
-                fprintf(fout, "\n"); //если строка закончилась записываем символ перехода строки
-            }
-            else {
+            if (temp == EOF) {
                 break; //если это конец файла
             }
         }
 
         //закрываем файлы
         fclose(fin);
-        fclose(fout); 
+        fclose(fout);
     }
     return 0;
 }
