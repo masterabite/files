@@ -23,6 +23,9 @@ int main() {
             //далее копируем символы из первого текста до конца строки или конца файла
             while (temp != EOF) {
                 temp = fgetc(fin);
+                if (temp == EOF) {
+                    break;
+                }
                 fprintf(fout, "%c", temp);
                 if (temp == '\n') {
                     break;
